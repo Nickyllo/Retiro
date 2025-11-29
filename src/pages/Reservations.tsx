@@ -12,10 +12,14 @@ import { Calendar, Users, Leaf, ArrowLeft, LogOut } from 'lucide-react';
 import { z } from 'zod';
 
 const packages = [
-  { id: 'basico', name: 'Paquete Básico', price: 150, nights: 2 },
-  { id: 'estandar', name: 'Paquete Estándar', price: 280, nights: 3 },
-  { id: 'premium', name: 'Paquete Premium', price: 450, nights: 5 },
+  { id: 'basico', name: 'Paquete Básico', price: 150000, nights: 2 },
+  { id: 'estandar', name: 'Paquete Estándar', price: 280000, nights: 3 },
+  { id: 'premium', name: 'Paquete Premium', price: 450000, nights: 5 },
 ];
+
+const formatCOP = (value: number) => {
+  return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(value);
+};
 
 const reservationSchema = z.object({
   packageType: z.string().min(1, 'Selecciona un paquete'),
@@ -145,7 +149,7 @@ export default function Reservations() {
                     <SelectContent>
                       {packages.map(pkg => (
                         <SelectItem key={pkg.id} value={pkg.id}>
-                          {pkg.name} - ${pkg.price} ({pkg.nights} noches)
+                          {pkg.name} - {formatCOP(pkg.price)} ({pkg.nights} noches)
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -203,7 +207,7 @@ export default function Reservations() {
                 {selectedPkg && (
                   <div className="bg-primary/10 rounded-lg p-4">
                     <p className="text-sm text-muted-foreground">Total estimado:</p>
-                    <p className="font-serif text-2xl text-primary">${selectedPkg.price * guests}</p>
+                    <p className="font-serif text-2xl text-primary">{formatCOP(selectedPkg.price * guests)}</p>
                   </div>
                 )}
 
@@ -239,7 +243,7 @@ export default function Reservations() {
                           {res.check_in} → {res.check_out}
                         </p>
                         <p className="text-sm text-muted-foreground">{res.guests} huésped(es)</p>
-                        <p className="font-serif text-lg text-primary mt-2">${res.total_price}</p>
+                        <p className="font-serif text-lg text-primary mt-2">{formatCOP(res.total_price)}</p>
                       </div>
                     );
                   })}

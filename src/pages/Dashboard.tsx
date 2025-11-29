@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Leaf, ArrowLeft, Users, Calendar, DollarSign, Pencil, Trash2, X } from 'lucide-react';
+import { Leaf, ArrowLeft, Users, Calendar, Banknote, Pencil, Trash2, X } from 'lucide-react';
 
 interface Reservation {
   id: string;
@@ -26,10 +26,14 @@ interface Reservation {
 }
 
 const packages = [
-  { id: 'basico', name: 'Paquete Básico', price: 150, nights: 2 },
-  { id: 'estandar', name: 'Paquete Estándar', price: 280, nights: 3 },
-  { id: 'premium', name: 'Paquete Premium', price: 450, nights: 5 },
+  { id: 'basico', name: 'Paquete Básico', price: 150000, nights: 2 },
+  { id: 'estandar', name: 'Paquete Estándar', price: 280000, nights: 3 },
+  { id: 'premium', name: 'Paquete Premium', price: 450000, nights: 5 },
 ];
+
+const formatCOP = (value: number) => {
+  return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(value);
+};
 
 export default function Dashboard() {
   const { user, loading, isAdmin } = useAuth();
@@ -257,11 +261,11 @@ export default function Dashboard() {
           <div className="bg-card rounded-xl p-6 border border-border/50">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-green-100 rounded-lg">
-                <DollarSign className="w-6 h-6 text-green-600" />
+                <Banknote className="w-6 h-6 text-green-600" />
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Ingresos Totales</p>
-                <p className="font-serif text-2xl">${stats.revenue}</p>
+                <p className="font-serif text-2xl">{formatCOP(stats.revenue)}</p>
               </div>
             </div>
           </div>
@@ -292,7 +296,7 @@ export default function Dashboard() {
                     <td className="px-4 py-3 text-sm capitalize">{res.package_type}</td>
                     <td className="px-4 py-3 text-sm">{res.check_in} → {res.check_out}</td>
                     <td className="px-4 py-3 text-sm">{res.guests}</td>
-                    <td className="px-4 py-3 text-sm font-medium">${res.total_price}</td>
+                    <td className="px-4 py-3 text-sm font-medium">{formatCOP(res.total_price)}</td>
                     <td className="px-4 py-3">{getStatusBadge(res.status)}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
@@ -355,7 +359,7 @@ export default function Dashboard() {
                 <SelectContent>
                   {packages.map(pkg => (
                     <SelectItem key={pkg.id} value={pkg.id}>
-                      {pkg.name} - ${pkg.price}
+                      {pkg.name} - {formatCOP(pkg.price)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -398,7 +402,7 @@ export default function Dashboard() {
             </div>
             <div className="bg-primary/10 rounded-lg p-4">
               <p className="text-sm text-muted-foreground">Total:</p>
-              <p className="font-serif text-2xl text-primary">${editForm.total_price}</p>
+              <p className="font-serif text-2xl text-primary">{formatCOP(editForm.total_price)}</p>
             </div>
           </div>
           <DialogFooter>
