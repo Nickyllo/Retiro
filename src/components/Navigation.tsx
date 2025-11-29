@@ -65,35 +65,8 @@ const Navigation = () => {
             </span>
           </button>
 
-          {/* Navigation Dropdown + Auth Buttons */}
+          {/* Auth Buttons + Navigation Dropdown */}
           <div className="hidden lg:flex items-center gap-3">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className={`transition-colors duration-300 ${
-                    isScrolled
-                      ? "text-foreground hover:bg-accent"
-                      : "text-background hover:bg-background/20"
-                  }`}
-                >
-                  <Menu className="w-4 h-4 mr-2" />
-                  Menú
-                  <ChevronDown className="w-4 h-4 ml-2" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48 bg-card border-border">
-                {navLinks.map((link, index) => (
-                  <DropdownMenuItem
-                    key={index}
-                    onClick={link.action}
-                    className="cursor-pointer"
-                  >
-                    {link.label}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -163,6 +136,33 @@ const Navigation = () => {
                 </Link>
               </div>
             )}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className={`transition-colors duration-300 ${
+                    isScrolled
+                      ? "text-foreground hover:bg-accent"
+                      : "text-background hover:bg-background/20"
+                  }`}
+                >
+                  <Menu className="w-4 h-4 mr-2" />
+                  Menú
+                  <ChevronDown className="w-4 h-4 ml-2" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48 bg-card border-border">
+                {navLinks.map((link, index) => (
+                  <DropdownMenuItem
+                    key={index}
+                    onClick={link.action}
+                    className="cursor-pointer"
+                  >
+                    {link.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           {/* Mobile Menu Placeholder */}
