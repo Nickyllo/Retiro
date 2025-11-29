@@ -115,6 +115,8 @@ export default function Reservations() {
           guests,
           special_requests: specialRequests || null,
           total_price: selectedPkg ? selectedPkg.price * guests : 0,
+          reservation_code: reservationCode,
+          room_code: roomCode,
         })
         .select()
         .single();
@@ -126,8 +128,6 @@ export default function Reservations() {
       // Show boarding pass
       setCurrentReservation({
         ...newReservation,
-        reservationCode,
-        roomCode,
         packageName: selectedPkg?.name,
       });
       setShowBoardingPass(true);
@@ -285,6 +285,23 @@ export default function Reservations() {
                         </p>
                         <p className="text-sm text-muted-foreground">{res.guests} huésped(es)</p>
                         <p className="font-serif text-lg text-primary mt-2">{formatCOP(res.total_price)}</p>
+                        
+                        {res.reservation_code && res.room_code && (
+                          <Button
+                            onClick={() => {
+                              setCurrentReservation({
+                                ...res,
+                                packageName: pkg?.name,
+                              });
+                              setShowBoardingPass(true);
+                            }}
+                            variant="outline"
+                            size="sm"
+                            className="w-full mt-3"
+                          >
+                            Ver Pase de Acceso
+                          </Button>
+                        )}
                       </div>
                     );
                   })}
@@ -306,14 +323,14 @@ export default function Reservations() {
           </button>
           {currentReservation && userProfile && (
             <BoardingPass
-              reservationCode={currentReservation.reservationCode}
-              roomCode={currentReservation.roomCode}
+              reservationCode={currentReservation.reservation_code}
+              roomCode={currentReservation.room_code}
               packageName={currentReservation.packageName}
               checkIn={currentReservation.check_in}
               checkOut={currentReservation.check_out}
               guests={currentReservation.guests}
               guestName={userProfile.full_name || user?.email || 'Huésped'}
-              qrData={`RESERVA:${currentReservation.reservationCode}|ROOM:${currentReservation.roomCode}`}
+              qrData={`RESERVA:${currentReservation.reservation_code}|ROOM:${currentReservation.room_code}`}
             />
           )}
         </DialogContent>

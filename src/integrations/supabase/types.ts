@@ -46,6 +46,8 @@ export type Database = {
           guests: number | null
           id: string
           package_type: string
+          reservation_code: string | null
+          room_code: string | null
           special_requests: string | null
           status: string | null
           total_price: number | null
@@ -58,6 +60,8 @@ export type Database = {
           guests?: number | null
           id?: string
           package_type: string
+          reservation_code?: string | null
+          room_code?: string | null
           special_requests?: string | null
           status?: string | null
           total_price?: number | null
@@ -70,6 +74,8 @@ export type Database = {
           guests?: number | null
           id?: string
           package_type?: string
+          reservation_code?: string | null
+          room_code?: string | null
           special_requests?: string | null
           status?: string | null
           total_price?: number | null
